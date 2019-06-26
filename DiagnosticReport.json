@@ -1,31 +1,42 @@
 {doco
   "resourceType" : "DiagnosticReport",
-  // from Resource: id, meta, implicitRules, and language
-  // from DomainResource: text, contained, extension, and modifierExtension
-  "identifier" : [{ Identifier }], // Business identifier for report
-  "basedOn" : [{ Reference(CarePlan|ImmunizationRecommendation|
-   MedicationRequest|NutritionOrder|ServiceRequest) }], // What was requested
-  "status" : "<code>", // R!  registered | partial | preliminary | final +
-  "category" : [{ CodeableConcept }], // Service category
-  "code" : { CodeableConcept }, // R!  Name/Code for this diagnostic report
-  "subject" : { Reference(Patient|Group|Device|Location) }, // The subject of the report - usually, but not always, the patient
-  "encounter" : { Reference(Encounter) }, // Health care event when test ordered
-  // effective[x]: Clinically relevant time/time-period for report. One of these 2:
-  "effectiveDateTime" : "<dateTime>",
-  "effectivePeriod" : { Period },
-  "issued" : "<instant>", // DateTime this version was made
-  "performer" : [{ Reference(Practitioner|PractitionerRole|Organization|
-   CareTeam) }], // Responsible Diagnostic Service
-  "resultsInterpreter" : [{ Reference(Practitioner|PractitionerRole|
-   Organization|CareTeam) }], // Primary result interpreter
-  "specimen" : [{ Reference(Specimen) }], // Specimens this report is based on
-  "result" : [{ Reference(Observation) }], // Observations
-  "imagingStudy" : [{ Reference(ImagingStudy) }], // Reference to full details of imaging associated with the diagnostic report
-  "media" : [{ // Key images associated with this report
-    "comment" : "<string>", // Comment about the image (e.g. explanation)
-    "link" : { Reference(Media) } // R!  Reference to the image source
+  "id": "a579375749375",
+  "text" : {
+	  "status": "generated",
+	  "div": "No mass, hemorrhage or hydrocephalus. Basal ganglia and posterior fossa structures are		  normal. No established major vessel vascular territory infarct. No intra or extra axia		  l collection. The basal cisterns and foramen magnum are patent. The air cells of the p		  etrous temporal bone are non-opacified. No fracture demonstrated.
+
+		  Scans through the base of the brain are unremarkable. The oropharynx and nasopharynx a		  re within normal limits. The airway is patent. The epiglottis and epiglottic folds are		  normal. The thyroid, submandibular, and parotid glands enhance homogenously. The vascu		  lar and osseous structures in the neck are intact. There is no lymphadenopathy. The vi		  sualized lung apices show a mass lesion of the left apex, homogenously enhancing 1.4 c		  m x 2.6 cm."
+  },
+  "identifier" : [
+	  {
+		  "use": "usual",
+		  "system": "http://www.siim.org/",
+		  "value": "a82375098312098375982"
+  }], 
+  "status" : "Final",
+  "category" : "RAD",
+  "code" : { 
+ 	"coding" : [
+		{
+			"system": "http://hl7.org/fhir/v2/0074",
+			"code": "24627-2"
+		}	
+  	]
+  },
+  "subject" : { 
+	  "reference": "Patient/siimronald"
+  }, 
+  "effectiveDateTime" : "2019-06-26",
+  "issued" : "2019-06-26T12:30:00",
+  "performer" : [
+	  {
+		  "reference" : "Organization/siim",
+		  "display" : "Society Of Imaging Informatics in Medicine"
+	  }
+  ],
+  "media" : [{
+    "comment" : "Thunderclap headache, suspicious for subarachnoid hemorrhage."
   }],
-  "conclusion" : "<string>", // Clinical conclusion (interpretation) of test results
-  "conclusionCode" : [{ CodeableConcept }], // Codes for the clinical conclusion of test results
-  "presentedForm" : [{ Attachment }] // Entire report as issued
+  "conclusion" : "No acute intracranial process.Homogenously enhancing left lung mass, absent on prior CT",
+  "conclusionCode" : "ACR-3"
 }
