@@ -1,0 +1,37 @@
+{doco
+  "resourceType" : "Communication",
+  // from Resource: id, meta, implicitRules, and language
+  // from DomainResource: text, contained, extension, and modifierExtension
+  "identifier" : [{ Identifier }], // Unique identifier
+  "instantiatesCanonical" : [{ canonical(PlanDefinition|ActivityDefinition|
+   Measure|OperationDefinition|Questionnaire) }], // Instantiates FHIR protocol or definition
+  "instantiatesUri" : ["<uri>"], // Instantiates external protocol or definition
+  "basedOn" : [{ Reference(Any) }], // Request fulfilled by this communication
+  "partOf" : [{ Reference(Any) }], // Part of this action
+  "inResponseTo" : [{ Reference(Communication) }], // Reply to
+  "status" : "<code>", // R!  preparation | in-progress | not-done | suspended | aborted | completed | entered-in-error
+  "statusReason" : { CodeableConcept }, // Reason for current status
+  "category" : [{ CodeableConcept }], // Message category
+  "priority" : "<code>", // Message urgency
+  "medium" : [{ CodeableConcept }], // A channel of communication
+  "subject" : { Reference(Patient|Group) }, // Focus of message
+  "topic" : { CodeableConcept }, // Description of the purpose/content
+  "about" : [{ Reference(Any) }], // Resources that pertain to this communication
+  "encounter" : { Reference(Encounter) }, // Encounter created as part of
+  "sent" : "<dateTime>", // When sent
+  "received" : "<dateTime>", // When received
+  "recipient" : [{ Reference(Device|Organization|Patient|Practitioner|
+   PractitionerRole|RelatedPerson|Group|CareTeam|HealthcareService) }], // Message recipient
+  "sender" : { Reference(Device|Organization|Patient|Practitioner|
+   PractitionerRole|RelatedPerson|HealthcareService) }, // Message sender
+  "reasonCode" : [{ CodeableConcept }], // Indication for message
+  "reasonReference" : [{ Reference(Condition|Observation|DiagnosticReport|
+   DocumentReference) }], // Why was communication done?
+  "payload" : [{ // Message payload
+    // content[x]: Message part content. One of these 3:
+    "contentString" : "<string>"
+    "contentAttachment" : { Attachment }
+    "contentReference" : { Reference(Any) }
+  }],
+  "note" : [{ Annotation }] // Comments made about the communication
+}
