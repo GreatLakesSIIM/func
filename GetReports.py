@@ -98,4 +98,19 @@ for i in range(len(ACR_indices)):
 
     title = "Actionable Finding for patient: " + patientName(pcp["patient"])
     ## dont actually spam them with emails...yet
-#SendEmail.sendEmail(email,message,title)
+    #SendEmail.sendEmail(email,message,title)
+
+    url = "http://hapi.fhir.org/baseDstu3/Communication"
+    lastupdated = datetime.datetime.now()
+
+    payload = f"{\n    \"resourceType\": \"Communication\",\n    \"id\": \"1957248\",\n    \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"{lastupdated}\"\n    },\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">{patientName} has a non-actionable finding in need of followup</div>\"\n    },\n    \"identifier\": [\n        {\n            \"system\": \"http://example.org/codes/pseudokey\",\n            \"value\": \"9B1RzFAyFD9TkA8Oca1QpQ\"\n        }\n    ],\n    \"partOf\": [\n        {\n            \"display\": \"Followup accepted on Non-actionable Findings\"\n        }\n    ],\n    \"status\": \"completed\",\n    \"category\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://acme.org/messagetypes\",\n                    \"code\": \"Alert\"\n                }\n            ],\n            \"text\": \"Alert\"\n        }\n    ],\n    \"medium\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ParticipationMode\",\n                    \"code\": \"WRITTEN\",\n                    \"display\": \"written\"\n                }\n            ],\n            \"text\": \"written\"\n        }\n    ],\n    \"sent\": \"2014-12-12T18:01:10-08:00\",\n    \"received\": \"2014-12-12T18:01:11-08:00\",\n    \"payload\": [\n        {\n            \"contentString\": \"General Practitioner X has accepted the followup responsibilities for patient\"\n        },\n        {\n            \"contentReference\": {\n                \"display\": \"Followup accepted for Non-Actionable Lung Mass\"\n            }\n        }\n    ]\n}"
+    headers = {
+        'apikey': "25822b15-300b-4ba2-953c-e0c0e310cfef",
+        'Content-Type': "application/fhir+json",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "76dcd8d9-d530-4e2f-8016-f296867080cf"
+        }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+
+    print(response.text)
