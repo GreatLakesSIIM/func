@@ -28,17 +28,14 @@ def patientName(patient):
 
 def reportToPcp(report):
     if("subject" not in report["resource"]):
-        print("No subject found for Diagnostic report id: "+report["resource"]["id"])
         return None
     #get patient reference 
     patientRef = report["resource"]["subject"]["reference"]
-    print(patientRef)
     #load patient from fhir
     patient = fhirGet(patientRef)
     #get practitioner "generalPractitioner"
     pPatient = json.loads(patient.text)
     if("generalPractitioner" not in pPatient):
-        print("\tPatient has no healthcare provider!")
         return None
     pcpRef = pPatient["generalPractitioner"][0]["reference"]
     #get general practitioner from fhir
@@ -47,9 +44,16 @@ def reportToPcp(report):
     pcp["patient"] = pPatient
     return pcp
 
-#querystring = {"conclusion":"ACR-3"}
-#diagnosticReportUrl = baseUrl + "DiagnosticReport"
-#reports = requests.request("GET", diagnosticReportUrl, headers=headers, params=querystring)
+def find_ACR3(res_entry, code_sys, code_value):
+    inc_findings_inds = []
+    for i in range(len(res_entry)):
+        codes = res_entry[i]['resource']['code']['coding']
+        for entry in codes:
+            if entry['system'] == code_sys and entry['code'] == code_value:
+                print('Incidental Finding found!')
+                inc_findings_inds.append(i)
+    return inc_findings_inds
+
 
 #Start by getting all DiagnosticReports 
 
@@ -58,6 +62,9 @@ reports = fhirGet("DiagnosticReport")
 pReports = json.loads(reports.text)
 #all entries (reports)
 pEntries = pReports["entry"]
+
+
+ACR_indices = find_ACR3(pEntries, 'RADLEX', 'RID49482')
 
 
 message = MIMEText("""\
@@ -69,10 +76,10 @@ Click accept.
 </pre>
 """,'html')
 
-#message = MIMEText(u'<a href="www.google.com">abc</a>','html')
-
 #loop through reports
-for report in pEntries:
+for i in range(len(ACR_indices)):
+    entry_i = ACR_indices[i]
+    report = pEntries[entry_i]
     #make sure report has patient subject
     pcp = reportToPcp(report)
     if(pcp == None):
@@ -88,11 +95,10 @@ for report in pEntries:
         if(com["system"] == "email"):
             email = com["value"]
     #do stuff with new information
-    print("Send email to: "+email)
+
+
+
+
     title = "Actionable Finding for patient: " + patientName(pcp["patient"])
     ## dont actually spam them with emails...yet
-    SendEmail.sendEmail(email,message,title)
-
-
-
-
+#SendEmail.sendEmail(email,message,title)
