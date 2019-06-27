@@ -96,9 +96,6 @@ for i in range(len(ACR_indices)):
             email = com["value"]
     #do stuff with new information
 
-
-
-
     title = "Actionable Finding for patient: " + patientName(pcp["patient"])
     ## dont actually spam them with emails...yet
 #SendEmail.sendEmail(email,message,title)
