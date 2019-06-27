@@ -1,0 +1,6 @@
+1.create diagnostic report - SOLE - REPORT APPROVED 
+2.Find ACR 3, Radlex RID49482 - SOLE "Report SIGNED", Should propose that we need a code for when an ACR 3 code is found
+3.Fihr communication request is made and sent to the local patients EMR - SOLE "Order Filled" SOLE101
+4.PCP responds to worklist 
+	- IF accepted SOLE "Crit 3 Notification Delegated SOLE107"
+	- If denied, fihr communication request sent, SOLE "Order Filled SOLE101"

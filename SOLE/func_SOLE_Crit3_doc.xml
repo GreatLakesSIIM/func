@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>\n
+<AuditMessage>\n 
+<EventIdentification EventDateTime='2016-10-17T15:12:04.287-06:00'\n
+EventOutcomeIndicator='0'\n 
+EventActionCode='E'>\n 
+<EventID csd-code='SOLE' codeSystemName='IHE-RAD'\noriginalText='Imaging Operational Event' />\n 
+<EventTypeCode csd-code='SOLE107' codeSystemName='RadLex'\noriginalText='Crit 3 Notification Delegated' />\n 
+</EventIdentification>\n
+ <ActiveParticipant UserID='EmpID12345678'\n 
+UserIsRequestor='true'>\n
+<RoleIDCode csd-code='121096' codeSystemName='DCM'\noriginalText='Ordering Physician' />\n
+<!--<Shift 3 />\n<Department Emergency />\n
+ --> </ActiveParticipant>\n
+ 
+NetworkAccessPointTypeCode='1'\n 
+NetworkAccessPointID='125.20.175.12'>\n
+<RoleIDCode csd-code='110150' codeSystemName='DCM'\noriginalText='Application' />\n
+<RoleIDCode csd-code='New07' codeSystemName='IHE-SOLE'\noriginalText='Automated Order Machine' />\n 
+</ActiveParticipant>\n
+<AuditSourceIdentification code='1'\n 
+AuditEnterpriseSiteID='End User'\nAuditSourceID='Dr.Barrington@Real.Doctor.com'/>\n
+<ParticipantObjectIdentification\nParticipantObjectTypeCodeRole='4'>\n 
+<ParticipantObjectIDTypeCode csd-code='363679005'\ncodeSystemName='SNOMED-CT' originalText='Imaging Procedure - Exam' />\n 
+<!-- <ParticipantObjectID 12345678654321 />\n 
+--></ParticipantObjectIdentification>\n 
+<ParticipantObjectIdentification\n 
+ParticipantObjectTypeCodeRole='4'>\n 
+<ParticipantObjectIDTypeCode csd-code='363679005121022'\n
+codeSystemName='DCM' originalText='Accession Number' />\n 
+<!-- <ParticipantObjectID 12345678901234 />\n 
+--> </ParticipantObjectIdentification>\n
+ </AuditMessage>

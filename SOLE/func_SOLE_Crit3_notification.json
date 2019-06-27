@@ -1,0 +1,14 @@
+{"Events": [
+{
+"Pri" : "136",
+"Version": "1",
+"Timestamp": "2015-03-17T00:05",
+"Hostname": "Real.Hospital.org",
+"App-name": "SOLE-stream",
+"Procid": "1234",
+"Comment": "FUNC",
+"Msg-id": "SOLE107",
+"Msg": "Crit 3 Notification Delegated"
+}
+]
+}
