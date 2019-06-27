@@ -2,6 +2,7 @@ import requests
 #import ParseReport
 import json
 import SendEmail
+import datetime
 from email.mime.text import MIMEText
 
 baseUrl = "http://hackathon.siim.org/fhir/"
@@ -66,16 +67,6 @@ pEntries = pReports["entry"]
 
 ACR_indices = find_ACR3(pEntries, 'RADLEX', 'RID49482')
 
-
-message = MIMEText("""\
-<pre> 
-You have a Follow-up Non-critical Actionable Finding.
-Click accept.
-<a href="https://google.com"><img border="0" alt="Accept" src="http://www.iconarchive.com/download/i104134/custom-icon-design/flatastic-9/Accept.ico" width="100" height="100"></a>
-<a href="https://bing.com"><img border="0" alt="Deny" src="https://cdn.pixabay.com/photo/2016/02/02/05/53/cancel-1174809_960_720.png" width="100" height="100"></a>
-</pre>
-""",'html')
-
 #loop through reports
 for i in range(len(ACR_indices)):
     entry_i = ACR_indices[i]
@@ -96,14 +87,10 @@ for i in range(len(ACR_indices)):
             email = com["value"]
     #do stuff with new information
 
-    title = "Actionable Finding for patient: " + patientName(pcp["patient"])
-    ## dont actually spam them with emails...yet
-    #SendEmail.sendEmail(email,message,title)
-
     url = "http://hapi.fhir.org/baseDstu3/Communication"
     lastupdated = datetime.datetime.now()
 
-    payload = f"{\n    \"resourceType\": \"Communication\",\n    \"id\": \"1957248\",\n    \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"{lastupdated}\"\n    },\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">{patientName} has a non-actionable finding in need of followup</div>\"\n    },\n    \"identifier\": [\n        {\n            \"system\": \"http://example.org/codes/pseudokey\",\n            \"value\": \"9B1RzFAyFD9TkA8Oca1QpQ\"\n        }\n    ],\n    \"partOf\": [\n        {\n            \"display\": \"Followup accepted on Non-actionable Findings\"\n        }\n    ],\n    \"status\": \"completed\",\n    \"category\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://acme.org/messagetypes\",\n                    \"code\": \"Alert\"\n                }\n            ],\n            \"text\": \"Alert\"\n        }\n    ],\n    \"medium\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ParticipationMode\",\n                    \"code\": \"WRITTEN\",\n                    \"display\": \"written\"\n                }\n            ],\n            \"text\": \"written\"\n        }\n    ],\n    \"sent\": \"2014-12-12T18:01:10-08:00\",\n    \"received\": \"2014-12-12T18:01:11-08:00\",\n    \"payload\": [\n        {\n            \"contentString\": \"General Practitioner X has accepted the followup responsibilities for patient\"\n        },\n        {\n            \"contentReference\": {\n                \"display\": \"Followup accepted for Non-Actionable Lung Mass\"\n            }\n        }\n    ]\n}"
+    payload = "{\n    \"resourceType\": \"Communication\",\n    \"id\": \"1957248\",\n    \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"{}\"\n    },\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">{} has a non-actionable finding in need of followup</div>\"\n    },\n    \"identifier\": [\n        {\n            \"system\": \"http://example.org/codes/pseudokey\",\n            \"value\": \"9B1RzFAyFD9TkA8Oca1QpQ\"\n        }\n    ],\n    \"partOf\": [\n        {\n            \"display\": \"Followup accepted on Non-actionable Findings\"\n        }\n    ],\n    \"status\": \"completed\",\n    \"category\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://acme.org/messagetypes\",\n                    \"code\": \"Alert\"\n                }\n            ],\n            \"text\": \"Alert\"\n        }\n    ],\n    \"medium\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ParticipationMode\",\n                    \"code\": \"WRITTEN\",\n                    \"display\": \"written\"\n                }\n            ],\n            \"text\": \"written\"\n        }\n    ],\n    \"sent\": \"2014-12-12T18:01:10-08:00\",\n    \"received\": \"2014-12-12T18:01:11-08:00\",\n    \"payload\": [\n        {\n            \"contentString\": \"General Practitioner X has accepted the followup responsibilities for patient\"\n        },\n        {\n            \"contentReference\": {\n                \"display\": \"Followup accepted for Non-Actionable Lung Mass\"\n            }\n        }\n    ]\n}".format(lastupdated, patientName)
     headers = {
         'apikey': "25822b15-300b-4ba2-953c-e0c0e310cfef",
         'Content-Type': "application/fhir+json",
@@ -114,3 +101,17 @@ for i in range(len(ACR_indices)):
     response = requests.request("POST", url, data=payload, headers=headers)
 
     print(response.text)
+
+
+    # message = MIMEText("""\
+    # <pre> 
+    # You have a Follow-up Non-critical Actionable Finding.
+    # Click accept.
+    # <a href="https://google.com"><img border="0" alt="Accept" src="http://www.iconarchive.com/download/i104134/custom-icon-design/flatastic-9/Accept.ico" width="100" height="100"></a>
+    # <a href="https://bing.com"><img border="0" alt="Deny" src="https://cdn.pixabay.com/photo/2016/02/02/05/53/cancel-1174809_960_720.png" width="100" height="100"></a>
+    # </pre>
+    # """,'html')
+
+    # title = "Actionable Finding for patient: " + patientName(pcp["patient"])
+    # ## dont actually spam them with emails...yet
+    # #SendEmail.sendEmail(email,message,title)
