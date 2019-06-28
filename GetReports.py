@@ -114,6 +114,7 @@ pEntries = pReports["entry"]
 
 
 ACR_indices = find_ACR3(pEntries, 'RADLEX', 'RID49482')
+print(ACR_indices)
 post_SOLE_report_signed()
 
 #loop through reports
@@ -123,7 +124,7 @@ for i in range(len(ACR_indices)):
     #make sure report has patient subject
     pcp = reportToPcp(report)
     patient_name = patientName(pcp["patient"])
-
+    #print(patient_name)
     if(pcp == None):
         print("failed with report ")
         continue
@@ -150,15 +151,22 @@ for i in range(len(ACR_indices)):
             "display": "Followup accepted on Non-actionable Findings"
         }
     ],
+    "meta": {
+        "versionId": "1",
+        "lastUpdated": "'''+ lastupdated +'''"
+    },
     "category": [
         {
             "coding": [
                 {
-                    "system": "http://acme.org/messagetypes",
-                    "code": "Alert"
+                    "system": "RADLEX",
+                    "code": "RID49482"
                 }
             ],
-            "text": "Alert"
+            "text": "Alert",
+            "pcp_email": "''' + email + '''",
+            "pcp_id": "''' + pcp['id'] + '''",
+            "patient_name": "''' + patient_name + '''"
         }
     ],
     "payload": [
@@ -184,16 +192,3 @@ for i in range(len(ACR_indices)):
     print(f'COMMUNICATION RESOURCE POSTED TO REMOTE FHIR SERVER {url} FOR PROVIDER {pcp["id"]}')
     post_SOLE_order_filled(pcp['id'])
 
-
-    # message = MIMEText("""\
-    # <pre> 
-    # You have a Follow-up Non-critical Actionable Finding.
-    # Click accept.
-    # <a href="https://google.com"><img border="0" alt="Accept" src="http://www.iconarchive.com/download/i104134/custom-icon-design/flatastic-9/Accept.ico" width="100" height="100"></a>
-    # <a href="https://bing.com"><img border="0" alt="Deny" src="https://cdn.pixabay.com/photo/2016/02/02/05/53/cancel-1174809_960_720.png" width="100" height="100"></a>
-    # </pre>
-    # """,'html')
-
-    # title = "Actionable Finding for patient: " + patientName(pcp["patient"])
-    # ## dont actually spam them with emails...yet
-    # #SendEmail.sendEmail(email,message,title)
