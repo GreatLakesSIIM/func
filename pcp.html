@@ -1,0 +1,40 @@
+<html>
+    <head>
+
+        <title>Respond Now!</title>
+        <style type="text/css">
+
+          .centered-wrapper {
+              position: relative;
+              text-align: center;
+              vertical-align: middle;
+          }
+
+        </style>
+
+    </head>
+
+    <body class="centered-wrapper">
+
+        <h1>Doctor, you have a non-actionable follow up!</h1>
+
+        <button id="yesButton">Accept</button>
+        <button id="noButton">Decline</button>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            document.getElementById("yesButton").onclick = function () {
+              alert("You've accepted this report!");
+
+            }
+
+            document.getElementById("noButton").onclick = function () {
+
+                alert("You've denied this report!");
+            }
+
+        </script>
+
+    </body>
+
+</html>
