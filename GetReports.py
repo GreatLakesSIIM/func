@@ -59,7 +59,7 @@ def post_SOLE_report_signed():
     current_time = datetime.datetime.now()
     url = "http://hackathon.siim.org/sole/bulk-syslog-events"
 
-    payload = f'{{\"Events\": [\r\n{{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"{current_time}\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"func\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"Followup needed for Diagnostic Report found with ACR-3 code RID49482\",\r\n\"Msg-id\": \"GLakes001\",\r\n\"Msg\": \"Report \"\r\n}}\r\n]\r\n}}'
+    payload = f'{{\"Events\": [\r\n{{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"{current_time}\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"func\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"Followup needed for Diagnostic Report found with ACR-3 code RID49482\",\r\n\"Msg-id\": \"GLakes001\",\r\n\"Msg\": \"Report Signed\"\r\n}}\r\n]\r\n}}'
     headers = {
         'apikey': "c2e5d31b-8ba0-4d22-a41e-a2396c2de76d",
         'Accept': "application/json",
@@ -92,7 +92,7 @@ def post_SOLE_order_filled(proc_id):
     current_time = datetime.datetime.now()
     url = "http://hackathon.siim.org/sole/bulk-syslog-events"
 
-    payload = f'{{\"Events\": [\r\n{{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"{current_time}\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"func\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"Communication sent to general practitioner {proc_id}\",\r\n\"Msg-id\": \"RID45924\",\r\n\"Msg\": \"Report approved: ACR 3 found\"\r\n}}\r\n]\r\n}}'
+    payload = f'{{\"Events\": [\r\n{{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"{current_time}\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"func\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"Communication sent to general practitioner {proc_id}\",\r\n\"Msg-id\": \"SOLE101\",\r\n\"Msg\": \"Order Filled\"\r\n}}\r\n]\r\n}}'
     headers = {
         'apikey': "c2e5d31b-8ba0-4d22-a41e-a2396c2de76d",
         'Accept': "application/json",
