@@ -1,5 +1,4 @@
 import requests
-#import ParseReport
 import json
 import SendEmail
 import datetime
@@ -56,6 +55,55 @@ def find_ACR3(res_entry, code_sys, code_value):
     return inc_findings_inds
 
 
+def post_SOLE_report_signed():
+    current_time = datetime.datetime.now()
+    url = "http://hackathon.siim.org/sole/bulk-syslog-events"
+
+    payload = f'{{\"Events\": [\r\n{{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"{current_time}\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"func\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"Followup needed for Diagnostic Report found with ACR-3 code RID49482\",\r\n\"Msg-id\": \"GLakes001\",\r\n\"Msg\": \"Report \"\r\n}}\r\n]\r\n}}'
+    headers = {
+        'apikey': "c2e5d31b-8ba0-4d22-a41e-a2396c2de76d",
+        'Accept': "application/json",
+        'Cache-Control': "no-cache",
+        'Content-Type': "application/json",
+        'Postman-Token': "237ead16-b88e-4267-a885-3e13636ab31a"
+        }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+
+    print('REPORT SIGN SOLE POSTED')
+
+def post_SOLE_report_delegated():
+    current_time = datetime.datetime.now()
+    url = "http://hackathon.siim.org/sole/bulk-syslog-events"
+
+    payload = f'{{\"Events\": [\r\n{{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"{current_time}\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"func\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"Followup Accepted for non-actionable finding\",\r\n\"Msg-id\": \"SOLE107\",\r\n\"Msg\": \"Crit 3 Notification Delegated\"\r\n}}\r\n]\r\n}}'
+    headers = {
+        'apikey': "c2e5d31b-8ba0-4d22-a41e-a2396c2de76d",
+        'Accept': "application/json",
+        'Cache-Control': "no-cache",
+        'Content-Type': "application/json",
+        'Postman-Token': "de5de528-3b84-4a60-b342-d33871f74535"
+        }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+    print('REPORT DELEGATED SOLE POSTED')
+
+def post_SOLE_order_filled(proc_id):
+    current_time = datetime.datetime.now()
+    url = "http://hackathon.siim.org/sole/bulk-syslog-events"
+
+    payload = f'{{\"Events\": [\r\n{{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"{current_time}\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"func\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"Communication sent to general practitioner {proc_id}\",\r\n\"Msg-id\": \"RID45924\",\r\n\"Msg\": \"Report approved: ACR 3 found\"\r\n}}\r\n]\r\n}}'
+    headers = {
+        'apikey': "c2e5d31b-8ba0-4d22-a41e-a2396c2de76d",
+        'Accept': "application/json",
+        'Cache-Control': "no-cache",
+        'Content-Type': "application/json",
+        'Postman-Token': "d65e38b3-599f-497a-9a90-c05145d4ec72"
+        }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+    print('ORDER FILLED SOLE POSTED')
+
 #Start by getting all DiagnosticReports 
 
 reports = fhirGet("DiagnosticReport")
@@ -66,6 +114,7 @@ pEntries = pReports["entry"]
 
 
 ACR_indices = find_ACR3(pEntries, 'RADLEX', 'RID49482')
+post_SOLE_report_signed()
 
 #loop through reports
 for i in range(len(ACR_indices)):
@@ -132,8 +181,8 @@ for i in range(len(ACR_indices)):
         }
 
     response = requests.request("POST", url, data=payload, headers=headers)
-
-    print(response.text)
+    print(f'COMMUNICATION RESOURCE POSTED TO REMOTE FHIR SERVER {url} FOR PROVIDER {pcp["id"]}')
+    post_SOLE_order_filled(pcp['id'])
 
 
     # message = MIMEText("""\
