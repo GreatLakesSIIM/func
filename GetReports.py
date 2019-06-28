@@ -73,6 +73,8 @@ for i in range(len(ACR_indices)):
     report = pEntries[entry_i]
     #make sure report has patient subject
     pcp = reportToPcp(report)
+    patient_name = patientName(pcp["patient"])
+
     if(pcp == None):
         print("failed with report ")
         continue
@@ -87,10 +89,41 @@ for i in range(len(ACR_indices)):
             email = com["value"]
     #do stuff with new information
 
-    url = "http://hapi.fhir.org/baseDstu3/Communication"
+    url = "http://hapi.fhir.org/baseDstu3/Communication/"
     lastupdated = datetime.datetime.now()
 
-    payload = "{\n    \"resourceType\": \"Communication\",\n    \"id\": \"1957248\",\n    \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"{}\"\n    },\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">{} has a non-actionable finding in need of followup</div>\"\n    },\n    \"identifier\": [\n        {\n            \"system\": \"http://example.org/codes/pseudokey\",\n            \"value\": \"9B1RzFAyFD9TkA8Oca1QpQ\"\n        }\n    ],\n    \"partOf\": [\n        {\n            \"display\": \"Followup accepted on Non-actionable Findings\"\n        }\n    ],\n    \"status\": \"completed\",\n    \"category\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://acme.org/messagetypes\",\n                    \"code\": \"Alert\"\n                }\n            ],\n            \"text\": \"Alert\"\n        }\n    ],\n    \"medium\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://terminology.hl7.org/CodeSystem/v3-ParticipationMode\",\n                    \"code\": \"WRITTEN\",\n                    \"display\": \"written\"\n                }\n            ],\n            \"text\": \"written\"\n        }\n    ],\n    \"sent\": \"2014-12-12T18:01:10-08:00\",\n    \"received\": \"2014-12-12T18:01:11-08:00\",\n    \"payload\": [\n        {\n            \"contentString\": \"General Practitioner X has accepted the followup responsibilities for patient\"\n        },\n        {\n            \"contentReference\": {\n                \"display\": \"Followup accepted for Non-Actionable Lung Mass\"\n            }\n        }\n    ]\n}".format(lastupdated, patientName)
+    payload = '''
+{
+    "resourceType": "Communication",
+
+    "partOf": [
+        {
+            "display": "Followup accepted on Non-actionable Findings"
+        }
+    ],
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://acme.org/messagetypes",
+                    "code": "Alert"
+                }
+            ],
+            "text": "Alert"
+        }
+    ],
+    "payload": [
+        {
+            "contentString": "General Practitioner ''' + pcp['id'] + ''' has accepted the followup responsibilities for patient ''' + patient_name + '''"
+        },
+        {
+            "contentReference": {
+                "display": "Followup accepted for Non-Actionable Lung Mass"
+            }
+        }
+    ]
+}
+    '''
     headers = {
         'apikey': "25822b15-300b-4ba2-953c-e0c0e310cfef",
         'Content-Type': "application/fhir+json",
