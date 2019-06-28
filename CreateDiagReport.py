@@ -32,5 +32,4 @@ headers = {
     }
 
 response = requests.request("POST", url, data=payload, headers=headers)
-print(response)
 print(f'DIAGNOSIS REPORT CREATED FOR {patient_ref}')

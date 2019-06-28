@@ -106,7 +106,7 @@ def post_SOLE_order_filled(proc_id):
 
 #Start by getting all DiagnosticReports 
 
-reports = fhirGet("DiagnosticReport")
+reports = fhirGet("DiagnosticReport?code=RID49482")
 #convert to python equivelent for parsing
 pReports = json.loads(reports.text)
 #all entries (reports)
@@ -114,7 +114,7 @@ pEntries = pReports["entry"]
 
 
 ACR_indices = find_ACR3(pEntries, 'RADLEX', 'RID49482')
-print(ACR_indices)
+print(f"{len(ACR_indices)} Diagnostic Reports Found!!")
 post_SOLE_report_signed()
 
 #loop through reports
@@ -124,7 +124,6 @@ for i in range(len(ACR_indices)):
     #make sure report has patient subject
     pcp = reportToPcp(report)
     patient_name = patientName(pcp["patient"])
-    #print(patient_name)
     if(pcp == None):
         print("failed with report ")
         continue
@@ -153,7 +152,7 @@ for i in range(len(ACR_indices)):
     ],
     "meta": {
         "versionId": "1",
-        "lastUpdated": "'''+ lastupdated +'''"
+        "lastUpdated": "'''+ str(lastupdated) +'''"
     },
     "category": [
         {

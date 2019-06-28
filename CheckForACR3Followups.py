@@ -23,12 +23,12 @@ headers = {
     }
 print(1)
 all_comms = requests.get(url='http://hapi.fhir.org/baseDstu3/Communication/', headers=headers).json()['entry']
-print(2)
+
 ACR3_inds = find_ACR3_comm(all_comms, 'RADLEX', 'RID49482')
-print(ACR3_inds)
+print("PRINT SENING UPDATES TO PROVIDER")
 for i in ACR3_inds:
     print(i)
-    pcp_email = res_entry[i]['resource']['email']
+    pcp_email = res_entry[i]['resource']['pcp_email']
     pcp_id = res_entry[i]['resource']['pcp_id']
     patient_name = res_entry[i]['resource']['patient_name']
 
@@ -50,5 +50,5 @@ for i in ACR3_inds:
 
     title = "Actionable Finding for patient: " + patientName(pcp["patient"])
         ## dont actually spam them with emails...yet
-        #SendEmail.sendEmail(email,message,title)
-    print(message_text)
+    #SendEmail.sendEmail(email,message,title)
+    #print(message_text)
