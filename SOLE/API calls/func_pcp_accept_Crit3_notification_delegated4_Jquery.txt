@@ -1,0 +1,19 @@
+var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://hackathon.siim.org/sole/bulk-syslog-events",
+  "method": "POST",
+  "headers": {
+    "apikey": "c2e5d31b-8ba0-4d22-a41e-a2396c2de76d",
+    "Accept": "application/json",
+    "Cache-Control": "no-cache",
+    "Content-Type": "application/json",
+    "Postman-Token": "4a4a8cc2-f7b5-4918-8820-d8a3a474c4ac"
+  },
+  "processData": false,
+  "data": "{\"Events\": [\r\n{\r\n\"Pri\" : \"136\",\r\n\"Version\": \"1\",\r\n\"Timestamp\": \"2015-03-17T00:05\",\r\n\"Hostname\": \"Real.Hospital.org\",\r\n\"App-name\": \"SOLE-stream\",\r\n\"Procid\": \"1234\",\r\n\"Comment\": \"FUNC\",\r\n\"Msg-id\": \"SOLE107\",\r\n\"Msg\": \"Crit 3 Notification Delegated\"\r\n}\r\n]\r\n}"
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
